@@ -10,12 +10,35 @@
 
 import { useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router'
+
 
 import styles from '@/styles/modal.module.css';
 import { Modal } from '@/components/Modal';
 
+
 export default function Home() {
+
+	const router = useRouter()
 	const [modalIsOpen, setModalIsOpen] = useState(false);
+	
+
+	function handleModalConfirm() {
+		setModalIsOpen(false);
+		alert('confirmado');
+	}
+
+	function handleModalClose() {
+		setModalIsOpen(false);
+	}
+
+	function renderModalContent() {
+		return (
+			<div data-modal-content className={styles['modal-form']}>
+				Confirmado a criação do usuário: {router.query.username}
+			</div>
+		);
+	}
 
 	return (
 		<>
@@ -26,6 +49,15 @@ export default function Home() {
 			</main>
 
 			{/* Renderizar modal de confirmação */}
+			<Modal
+				isOpen={modalIsOpen}
+				title="Confirmado"
+				onClose={handleModalClose}
+				onConfirm={handleModalConfirm}
+				footer={{ confirmText: 'Confirmado', cancelText: 'Fechar' }}
+			>
+				{renderModalContent()}
+			</Modal>
 		</>
 	);
 }

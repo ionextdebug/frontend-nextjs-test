@@ -9,7 +9,7 @@ export default function Home() {
 				</li>
 
 				<li>
-					<a href="/modal-de-confirmacao">Modal de confirmação</a>
+					<a href="/modal-de-confirmacao/exemplo">Modal de confirmação</a>
 				</li>
 
 				<li>
