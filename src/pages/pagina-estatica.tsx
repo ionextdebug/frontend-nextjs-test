@@ -12,30 +12,29 @@ import { useEffect, useState } from 'react';
 import styles from '@/styles/lista.module.css';
 import { ICity } from '@/types/city.d';
 
-export default function Lista() {
-	const [list, setUsers] = useState<Array<ICity>>([
-		{
-			id: new Date().getTime().toString(),
-			name: 'São Paulo',
-		},
-	]);
 
-	async function getList() {
-		try {
-			const response = await fetch('/api/cities/10');
-			const data = await response.json();
+export async function getStaticProps() {
+	const response = await fetch(process.env.URL + '/api/cities/2');
+	const cities = await response.json();
 
-			if (!response.ok) throw new Error('Erro ao obter os dados');
-
-			setUsers(data);
-		} catch (error) {
-			console.error(error);
-		}
+	if (!response.ok) throw new Error('Erro ao obter os dados');
+   
+	return {
+	  props: {
+		cities,
+	  },
+	  // Next.js will attempt to re-generate the page:
+	  // - When a request comes in
+	  // - At most once every 10 seconds
+	  revalidate: 60, // In seconds
 	}
+  }
 
-	useEffect(() => {
-		getList();
-	}, []);
+
+  export default function Lista({cities}:{cities:any}) {
+	
+
+	
 
 	return (
 		<div className={styles.container}>
@@ -43,7 +42,7 @@ export default function Lista() {
 				<h2>Lista de cidades</h2>
 
 				<div data-list-container>
-					{list.map((city) => (
+					{cities.map((city:any) => (
 						<div data-list-item key={city.id}>
 							{city.name}
 						</div>
@@ -53,3 +52,6 @@ export default function Lista() {
 		</div>
 	);
 }
+
+
+
