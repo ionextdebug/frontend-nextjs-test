@@ -37,8 +37,13 @@ export default function Lista() {
 				<h2>Lista de usuários</h2>
 
 				<div data-list-container>
-					{/* Exemplo */}
-					<div data-list-item>ID 323 - Usuário 323 (user-323@mail.com)</div>
+					
+					{
+						users.map((user, index)=>(
+							<div data-list-item key={index}>Hash {user.id} - {user.name} ({user.email})</div>
+						))
+					}
+					
 				</div>
 			</div>
 		</div>
