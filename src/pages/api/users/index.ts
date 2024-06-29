@@ -14,8 +14,18 @@ import { NextApiRequest, NextApiResponse } from 'next/types';
 
 import { IUser } from '@/types/user.d';
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-	const users: Array<unknown> = [];
+import { prisma } from '@/lib/prisma';
 
-	return res.status(500).json(users);
+async function findMany(filter?:{}){
+	try{
+		return await prisma.user.findMany(filter);
+	}catch(err){
+		return [];
+	}
+}
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+	const users: Array<IUser> = await findMany();
+
+	return res.status(200).json(users);
 };

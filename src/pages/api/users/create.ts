@@ -14,8 +14,36 @@ import { NextApiRequest, NextApiResponse } from 'next/types';
 
 import { IUser, IUserCreate } from '@/types/user.d';
 
-const users: IUser[] = [];
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-	return res.status(400).json(undefined);
+import { prisma } from '@/lib/prisma';
+
+async function create(user: IUserCreate){
+	try{
+		
+		return await prisma.user.create({data: user});
+	}catch(err){
+		return [];
+	}
+}
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+	
+
+	if (req.method == 'POST') {
+
+
+		const newUser : Array<IUser> | IUser = await create(req.body);
+
+
+		//const r = newUser.then(async (data)=>await data.json()).catch()
+
+		console.log("r",newUser)
+
+		return res.status(200).json({message: "valid METHOD.", newUser});
+		
+	  } else {
+		return res.status(404).json({message: "Invalid METHOD."});
+	  }
+
+
 };
