@@ -3,7 +3,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Environment
 
-Use the file ```.env.example``` as reference for your real ```.env``` document.
+- Use the file ```.env.example``` as reference for your real ```.env``` document.
+- Use the ```prisma``` package to start the database.
 
 
 ## Getting Started
