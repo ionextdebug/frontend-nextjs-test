@@ -1,5 +1,5 @@
 export interface IToastMessage {
-	id: string;
+	id?: string;
 	message: string;
 	type: 'success' | 'error';
 	duration?: number;

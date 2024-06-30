@@ -15,26 +15,29 @@ import React, { createContext, useContext, useState } from 'react';
 
 
 //Context
-const ToastContext = createContext<any>([]);
+export const ToastContext = createContext<any>([]);
 
 //ContextProvider
 function ToastContextProvider({children}:{children:React.ReactNode}){
 
-	const [messages, setMessages] = useState([
-		{
-			id: '1',
-			message: 'Mensagem de sucesso',
-			type: 'success',
-		},
-		{
-			id: '2',
-			message: 'Mensagem de erro',
-			type: 'error',
-		},
+	const [messages, setMessages] = useState<Array<IToastMessage>>([
+		
 	]);
 
+	const dispatchNewMessage = (data:IToastMessage)=>{
+		const newMessage = {id: (messages.length+1).toString(), ...data}
+		setMessages([...messages, newMessage]);
+	}
+
+	const dispatchDeleteMessage = (id: string)=>{
+		const newMessages = messages.filter((message:any)=>{
+			return message.id != id;
+		})
+		setMessages(newMessages);
+	}
+
 	return (
-		<ToastContext.Provider value={{messages, setMessages}}>
+		<ToastContext.Provider value={{messages, setMessages, dispatchNewMessage, dispatchDeleteMessage}}>
 			{children}
 		</ToastContext.Provider>
 	);
@@ -42,30 +45,18 @@ function ToastContextProvider({children}:{children:React.ReactNode}){
 }
 
 function ToastContainer(){
-	const {messages, setMessages} = useContext(ToastContext);
-	return (
-		<div className={styles['toast-container']}>
-				{messages.map((message:any) => (
-					<ToastMessage key={message.id} content={message} />
-				))}
-			</div>
-	);
-}
-
-export default function ContextApi() {
-	
+	const {messages, setMessages, dispatchNewMessage} = useContext(ToastContext);
 
 	function handleSuccessButtonClick() {
-		alert('Method: handleSuccessButtonClick not implemented');
+		dispatchNewMessage({message: "Mensagem de sucesso.", type: 'success'});
 	}
 
 	function handleErrorButtonClick() {
-		alert('Method: handleErrorButtonClick not implemented');
+		dispatchNewMessage({message: "Mensagem de erro.", type: 'error' });
 	}
-
 	return (
 		<>
-			<div className={styles.container}>
+		<div className={styles.container}>
 				<button type="button" onClick={handleSuccessButtonClick}>
 					Disparar mensagem de sucesso
 				</button>
@@ -73,7 +64,24 @@ export default function ContextApi() {
 					Disparar mensagem de erro
 				</button>
 			</div>
+			<div className={styles['toast-container']}>
+				{messages.map((message:any) => (
+					<ToastMessage key={message.id} content={message} />
+				))}
+			</div>
+			</>
+		
+	);
+}
+
+export default function ContextApi() {
+		
+
+	return (
+		<>
+			
 		<ToastContextProvider>
+		
 			<ToastContainer />
 		</ToastContextProvider>
 		</>
