@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import { IToastMessage } from '@/types/toast-message.d';
 
 import styles from './style.module.css';
-import { ToastContext } from '@/pages/context-api';
+import { ToastContext } from '@/contexts/ToastContext';
 
 type ToastMessageProps = {
 	content: IToastMessage;
