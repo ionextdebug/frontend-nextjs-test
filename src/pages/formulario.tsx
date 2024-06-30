@@ -12,6 +12,7 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 
 import styles from '@/styles/formulario.module.css';
+import { IUserCreate } from "@/types/user";
 
 
 type Inputs = {
@@ -29,7 +30,28 @@ export default function Form() {
 			formState: { errors },
 		} = useForm<Inputs>();
 
-	const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+	const create = async (newUser: IUserCreate)=>{
+		const response = await fetch('/api/users/create',
+										{
+											method: "POST",
+											body: JSON.stringify(newUser)
+										});
+
+		return response.json();
+		
+	}
+
+	const onSubmit: SubmitHandler<Inputs> = async (data) => {
+
+		const response = await create({name: data.nome, email: data.email});
+
+		if(response.success){
+			alert("Usuário criado com sucesso.")
+		}else{
+			alert("Usuário não criado.")
+		}
+
+	};
 
 	console.log(watch("nome"));
 
@@ -39,12 +61,12 @@ export default function Form() {
 				<form onSubmit={handleSubmit(onSubmit)}>
 					{/* register your input into the hook by invoking the "register" function */}
 					<input placeholder="Nome" {...register("nome", { required: true })} />
-					{errors.nome && <span>Este campo é obrigatório.</span>}
+					{errors.nome && <span><sup>O campo nome é obrigatório.</sup></span>}
 
 					{/* include validation with required or other standard HTML validation rules */}
 					<input placeholder="E-mail" {...register("email", { required: true })} />
 					{/* errors will return when field validation fails  */}
-					{errors.email && <span>Este campo é obrigatório.</span>}
+					{errors.email && <span><sup>O campo e-mail é obrigatório.</sup></span>}
 
 
 					<button type="submit" data-type="confirm">

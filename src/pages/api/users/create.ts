@@ -17,12 +17,12 @@ import { IUser, IUserCreate } from '@/types/user.d';
 
 import { prisma } from '@/lib/prisma';
 
-async function create(user: IUserCreate){
+async function create(data: IUserCreate){
 	try{
 		
-		return await prisma.user.create({data: user});
+		return await prisma.user.create({data});
 	}catch(err){
-		return [];
+		return false;
 	}
 }
 
@@ -31,18 +31,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 	if (req.method == 'POST') {
 
+		
+		const newUser : IUser | false = await create(JSON.parse(req.body));
+		console.log(newUser)
 
-		const newUser : Array<IUser> | IUser = await create(req.body);
-
-
-		//const r = newUser.then(async (data)=>await data.json()).catch()
-
-		console.log("r",newUser)
-
-		return res.status(200).json({message: "valid METHOD.", newUser});
+		if(newUser){
+			return res.status(201).json({success: 1, data: {...newUser}});
+		}else{
+			return res.status(200).json({success: 0});
+		}
 		
 	  } else {
-		return res.status(404).json({message: "Invalid METHOD."});
+		return res.status(404).json({success: 0, error: "Invalid METHOD."});
 	  }
 
 
