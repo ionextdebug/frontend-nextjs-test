@@ -40,7 +40,7 @@ export default function Lista() {
 					
 					{
 						users.map((user, index)=>(
-							<div data-list-item key={index}>Hash {user.id} - {user.name} ({user.email})</div>
+							<div data-list-item key={index}><b>Hash:</b> <i>{user.id}</i> - {user.name} ({user.email})</div>
 						))
 					}
 					

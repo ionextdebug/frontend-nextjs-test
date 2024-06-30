@@ -64,7 +64,7 @@ export default function Form() {
 					{errors.nome && <span><sup>O campo nome é obrigatório.</sup></span>}
 
 					{/* include validation with required or other standard HTML validation rules */}
-					<input placeholder="E-mail" {...register("email", { required: true })} />
+					<input placeholder="E-mail" type="email" {...register("email", { required: true })} />
 					{/* errors will return when field validation fails  */}
 					{errors.email && <span><sup>O campo e-mail é obrigatório.</sup></span>}
 
