@@ -7,9 +7,9 @@ type CounterProps = {
 export const Counter: React.FC<CounterProps> = ({ initialCount }) => {
 	const [count, setCount] = useState(initialCount);
 
-	const onCounterMount = new Event("onCounterMount");
-	const onCounterUnmount = new Event("onCounterUnmount");
-	const onCounterUpdate = new Event("onCounterUpdate");
+	const onCounterMount = new CustomEvent("onCounterMount");
+	const onCounterUnmount = new CustomEvent("onCounterUnmount");
+	const onCounterUpdate = new CustomEvent("onCounterUpdate", {detail:{count}});
 
 	useEffect(() => {
 		

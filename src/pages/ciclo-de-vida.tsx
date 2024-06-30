@@ -43,7 +43,8 @@ export default function CicloDeVida({ initialCount }: CicloDeVidaProps) {
 		});
 
 		window.addEventListener('onCounterUpdate', (event: CustomEventInit) => {
-			console.log('onCounterUpdate');
+			console.log('onCounterUpdate', event.detail.count);
+			if(event.detail.count>9) handleOcultCounterClick();
 		});
 	}, []);
 
