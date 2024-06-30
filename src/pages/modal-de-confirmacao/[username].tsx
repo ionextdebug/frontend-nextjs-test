@@ -36,6 +36,10 @@ export default function Home() {
 		return (
 			<div data-modal-content className={styles['modal-form']}>
 				Confirmado a criação do usuário: {router.query.username}
+				<p>
+					<b>Altere o campo [username] para customizar o resultado:</b><br />
+					<i>http://localhost:8080/modal-de-confirmacao/<b>[username]</b></i>
+				</p>
 			</div>
 		);
 	}
